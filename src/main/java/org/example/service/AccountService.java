@@ -12,18 +12,15 @@ import org.springframework.stereotype.Service;
 public class AccountService {
     private final AccountRepository accountRepository;
 
-    public AccountDto createAccount(AccountDto accountDto) {
+    public Account createAccount(AccountDto accountDto) {
         Account accountDb = Account.builder().build();
         BeanUtils.copyProperties(accountDto, accountDb);
-        Account account = accountRepository.save(accountDb);
-        accountDto.setAccountId(account.getAccountId());
-        return accountDto;
+        return accountRepository.save(accountDb);
     }
 
-    public AccountDto getAccountInfo(Long id) {
-        Account accountDb =  accountRepository.findById(id).get();
-        AccountDto accountDto = AccountDto.builder().build();
-        BeanUtils.copyProperties(accountDb, accountDto);
-        return accountDto;
+    public Account getAccountInfo(Long id) {
+        return   accountRepository.findById(id).get();
+//        AccountDto accountDto = AccountDto.builder().build();
+//        BeanUtils.copyProperties(accountDb, accountDto);
     }
 }

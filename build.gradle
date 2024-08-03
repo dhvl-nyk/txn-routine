@@ -28,3 +28,8 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+task copyDependencies(type: Copy) {
+    into 'lib'
+    from configurations.runtimeClasspath
+}

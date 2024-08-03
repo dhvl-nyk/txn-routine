@@ -1,5 +1,7 @@
 package org.example.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,6 +23,8 @@ public class Account {
     @Column(name = "account_number", nullable = false, unique = true)
     private String accountNumber;
 
+    @JsonIgnore
+//    @Schema(hidden = true)
     @OneToOne(mappedBy = "account", optional = true)
     private Cardholder cardholder;
 

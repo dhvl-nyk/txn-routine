@@ -1,7 +1,9 @@
 package org.example.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -12,6 +14,8 @@ import java.time.LocalDateTime;
 @Table(name = "TRANSACTION")
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Transaction {
 
     @Id
