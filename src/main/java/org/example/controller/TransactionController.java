@@ -2,22 +2,28 @@ package org.example.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.dto.AccountDto;
-import org.example.service.AccountService;
-import org.springframework.web.bind.annotation.*;
+import org.example.dto.TransactionDto;
+import org.example.entity.Account;
+import org.example.entity.Transaction;
+import org.example.service.TransactionService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/accounts")
+@RequestMapping("/api/transactions")
 @RequiredArgsConstructor
 public class TransactionController {
-    private final AccountService accountService;
+
+    private final TransactionService transactionService;
 
     @PostMapping
-    public AccountDto createAccount(@RequestBody AccountDto accountDto) {
-        return accountService.createAccount(accountDto);
+    public ResponseEntity<Transaction> createAccount(@RequestBody TransactionDto transactionDto) {
+        Transaction transaction = transactionService.createTransaction(transactionDto);
+        return new ResponseEntity<>(transaction, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{accountId}")
-    public AccountDto getAccountInfo(@PathVariable Long accountId) {
-        return accountService.getAccountInfo(accountId);
-    }
 }
