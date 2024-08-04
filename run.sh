@@ -4,12 +4,12 @@
 MAIN_CLASS="org.example.TxnRoutineApplication"
 SRC_DIR="src"
 BUILD_DIR="build"
-
 # Create the build directory if it doesn't exist
 mkdir -p $BUILD_DIR
 
 echo "Building gradle project..."
-gradle clean build
+chmod +x ./gradlew
+./gradlew clean build
 
 #javac -d $BUILD_DIR -cp "$LIB_DIR/*" $SRC_DIR/org/example/TxnRoutineApplication.java
 

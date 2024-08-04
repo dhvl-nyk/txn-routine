@@ -1,20 +1,24 @@
 # Use an official OpenJDK runtime as a parent image
 FROM openjdk:11-jdk-slim
 
-# FROM gradle:7.4.2-jdk11 AS build
+FROM gradle:7.4.2-jdk11 AS build
 
 # Set the working directory
 WORKDIR /app
 
 # Copy the Gradle wrapper files
-# COPY gradlew /app/gradlew
-# COPY gradle /app/gradle
+COPY gradlew /app/gradlew
+COPY gradle /app/gradle
+
+# Copy the build.gradle and settings.gradle files
+COPY build.gradle /app/build.gradle
+COPY settings.gradle /app/settings.gradle
 
 # Copy the source code to the container
 COPY src /app/src
 
 # Copy the build folder to the container
-COPY build /app/build
+# COPY build /app/build
 
 # Copy the run script to the container
 COPY run.sh /app/run.sh
