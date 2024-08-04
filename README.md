@@ -3,8 +3,6 @@
 
 App to log Transactions
 
-
-
 ## Installation
 
 To run this project on local
@@ -22,7 +20,11 @@ To run this project on docker
   docker container run -d -p 8080:8080 txn-routine-app:latest
 ```
 
+To run only tests
 
+```bash
+  gradle test
+```
 
 
 ## EndPoints
