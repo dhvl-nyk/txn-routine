@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/transactions")
 @RequiredArgsConstructor
@@ -21,7 +23,7 @@ public class TransactionController {
     private final TransactionService transactionService;
 
     @PostMapping
-    public ResponseEntity<Transaction> createAccount(@RequestBody TransactionDto transactionDto) {
+    public ResponseEntity<Transaction> createAccount(@Valid @RequestBody TransactionDto transactionDto) {
         Transaction transaction = transactionService.createTransaction(transactionDto);
         return new ResponseEntity<>(transaction, HttpStatus.CREATED);
     }

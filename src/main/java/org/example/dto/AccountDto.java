@@ -1,18 +1,17 @@
 package org.example.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-import java.math.BigDecimal;
+import javax.validation.constraints.*;
 
-@Getter
-@Setter
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@Builder
+import static org.example.constants.TxnConstant.ACC_NO_EMPTY;
+import static org.example.constants.TxnConstant.ACC_NO_REQUIRED;
+
+@Data
 public class AccountDto {
-    private Long accountId;
+
+    @NotNull(message = ACC_NO_REQUIRED)
+    @Size(min = 1, message = ACC_NO_EMPTY)
     private String accountNumber;
 }
 

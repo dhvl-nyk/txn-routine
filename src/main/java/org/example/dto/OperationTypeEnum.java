@@ -3,8 +3,6 @@ package org.example.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.math.BigDecimal;
-
 @AllArgsConstructor
 @Getter
 public enum OperationTypeEnum {
