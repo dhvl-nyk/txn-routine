@@ -8,6 +8,7 @@ App to log Transactions
 ```
   java 8
   gradle
+  docker
 ```
 
 ## Installation

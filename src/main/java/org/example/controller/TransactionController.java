@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.AccountDto;
 import org.example.dto.TransactionDto;
@@ -23,7 +24,8 @@ public class TransactionController {
     private final TransactionService transactionService;
 
     @PostMapping
-    public ResponseEntity<Transaction> createAccount(@Valid @RequestBody TransactionDto transactionDto) {
+    @Operation(summary = "Create a transaction")
+    public ResponseEntity<Transaction> createTransaction(@Valid @RequestBody TransactionDto transactionDto) {
         Transaction transaction = transactionService.createTransaction(transactionDto);
         return new ResponseEntity<>(transaction, HttpStatus.CREATED);
     }
