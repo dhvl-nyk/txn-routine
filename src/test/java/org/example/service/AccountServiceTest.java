@@ -53,12 +53,4 @@ class AccountServiceTest {
         assertThrows(ResourceNotFoundException.class,
                 ()->accountService.getAccountInfo(1L));
     }
-
-//    @Test
-//    void getAccountInfoFailure2() {
-//        Mockito.when(accountRepository.findById(Mockito.any()))
-//                .thenThrow(new RuntimeException());
-//        assertThrows(ResourceNotFoundException.class,
-//                ()->accountService.getAccountInfo(1L));
-//    }
 }

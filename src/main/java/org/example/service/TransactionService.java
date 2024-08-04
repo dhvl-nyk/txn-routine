@@ -34,7 +34,7 @@ public class TransactionService {
         Optional<Account> account = accountRepository.findById(transactionDto.getAccountId());
         Optional<OperationType> operationType = operationTypeRepository
                 .findById(transactionDto.getOperationTypeId());
-        verify(transactionDto, account, operationType);
+        verifyRequest(transactionDto, account, operationType);
         Transaction transaction = Transaction.builder()
                 .account(account.get())
                 .operationType(operationType.get())
@@ -44,7 +44,7 @@ public class TransactionService {
         return transactionRepository.save(transaction);
     }
 
-    private void verify(TransactionDto transactionDto, Optional<Account> account, Optional<OperationType> operationType) {
+    private void verifyRequest(TransactionDto transactionDto, Optional<Account> account, Optional<OperationType> operationType) {
         List<String> errors = new ArrayList<>();
         if(!account.isPresent()) errors.add(String.format(ACC_NO_NOT_FOUND, transactionDto.getAccountId()));
         if(!operationType.isPresent()) errors.add(String.format(OPERATION_ID_NOT_FOUND, transactionDto.getOperationTypeId()));
@@ -53,8 +53,6 @@ public class TransactionService {
     }
 
     private BigDecimal determineAmount(BigDecimal amount, OperationType operationType) {
-//        OperationTypeEnum.getInstance().;
-
         AmountStrategy strategy = amountStrategies.stream()
                 .filter(amountStrategy -> amountStrategy.txnType(operationType.getDescription()))
                 .findAny()
