@@ -35,9 +35,6 @@ public class TransactionService {
         Optional<OperationType> operationType = operationTypeRepository
                 .findById(transactionDto.getOperationTypeId());
         verify(transactionDto, account, operationType);
-//            throw new ResourceNotFoundException(
-//                    String.format("Operation Type with ID %s not found", transactionDto.getOperationTypeId())
-//            );
         Transaction transaction = Transaction.builder()
                 .account(account.get())
                 .operationType(operationType.get())

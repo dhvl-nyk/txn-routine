@@ -2,6 +2,7 @@ package org.example.exception;
 
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -18,17 +19,18 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = ResourceNotFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    public ErrorMessage resourceNotFoundException(ResourceNotFoundException ex) {
-        return new ErrorMessage(HttpStatus.NOT_FOUND.value(),
+    public ResponseEntity<ErrorMessage> resourceNotFoundException(ResourceNotFoundException ex) {
+        ErrorMessage errorResponse = new ErrorMessage(HttpStatus.NOT_FOUND.value(),
                 new Date(),
                 ex.getMessages(),
                 RESOURCE_NOT_FOUND);
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    protected ErrorMessage handleMethodArgumentNotValidException(
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    protected ResponseEntity<ErrorMessage> handleMethodArgumentNotValidException(
             MethodArgumentNotValidException ex) {
-        Map<String, List<String>> body = new HashMap<>();
 
         List<String> errors = ex.getBindingResult()
                 .getFieldErrors()
@@ -36,15 +38,15 @@ public class GlobalExceptionHandler {
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.toList());
 
-        body.put("errors", errors);
-        return new ErrorMessage(HttpStatus.BAD_REQUEST.value(),
+        ErrorMessage errorResponse = new ErrorMessage(HttpStatus.BAD_REQUEST.value(),
                 new Date(),
                 errors,
                 REQUEST_FAILED);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-
     @ExceptionHandler(value = {Exception.class})
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorMessage handleAnyException(Exception ex) {
         return new ErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 new Date(),
