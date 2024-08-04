@@ -3,6 +3,13 @@
 
 App to log Transactions
 
+## Requirements
+
+```
+  java 8
+  gradle
+```
+
 ## Installation
 
 To run this project on local
