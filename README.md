@@ -22,7 +22,6 @@ To run this project on local
 To run this project on docker
 
 ```bash
-  gradle bootJar
   docker build --progress=plain -t txn-routine-app .
   docker container run -d -p 8080:8080 txn-routine-app:latest
 ```
