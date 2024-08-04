@@ -12,14 +12,14 @@ import java.util.List;
 public class PurchaseWithdraw extends AmountStrategy {
 
     private final List<String> txnTypes = Arrays.asList(
-            OperationTypeEnum.NORMAL_PURCHASE.name(),
-            OperationTypeEnum.PURCHASE_WITH_INSTALLMENTS.name(),
-            OperationTypeEnum.WITHDRAWAL.name()
+            OperationTypeEnum.NORMAL_PURCHASE.getValue(),
+            OperationTypeEnum.PURCHASE_WITH_INSTALLMENTS.getValue(),
+            OperationTypeEnum.WITHDRAWAL.getValue()
     );
     @Override
     public Boolean txnType(String txnType) {
-        return !txnType.equalsIgnoreCase("Credit Voucher");
-//        return txnTypes.contains(txnType);
+//        return !txnType.equalsIgnoreCase("Credit Voucher");
+        return txnTypes.contains(txnType);
     }
 
     @Override

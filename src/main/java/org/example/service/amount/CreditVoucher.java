@@ -10,7 +10,7 @@ public class CreditVoucher extends AmountStrategy {
 
     @Override
     public Boolean txnType(String txnType) {
-        return txnType.equalsIgnoreCase("Credit Voucher");
+        return txnType.equalsIgnoreCase(OperationTypeEnum.CREDIT_VOUCHER.getValue());
     }
 
     @Override
