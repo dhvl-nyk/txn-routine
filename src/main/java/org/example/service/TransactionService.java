@@ -30,6 +30,7 @@ public class TransactionService {
     private final AccountRepository accountRepository;
     private final OperationTypeRepository operationTypeRepository;
     private final List<AmountStrategy> amountStrategies;
+
     public Transaction createTransaction(TransactionDto transactionDto) {
         Optional<Account> account = accountRepository.findById(transactionDto.getAccountId());
         Optional<OperationType> operationType = operationTypeRepository
@@ -41,7 +42,9 @@ public class TransactionService {
                 .amount(determineAmount(transactionDto.getAmount(), operationType.get()))
                 .eventDate(LocalDateTime.now())
                 .build();
-        return transactionRepository.save(transaction);
+        synchronized (this) {
+            return transactionRepository.save(transaction);
+        }
     }
 
     private void verifyRequest(TransactionDto transactionDto, Optional<Account> account, Optional<OperationType> operationType) {

@@ -6,13 +6,13 @@ import org.example.entity.Account;
 import org.example.exception.ResourceNotFoundException;
 import org.example.repository.AccountRepository;
 import org.springframework.beans.BeanUtils;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
+import static org.example.constants.TxnConstant.ACC_NO_EXISTS;
 import static org.example.constants.TxnConstant.ACC_NO_NOT_FOUND;
 
 @Service
@@ -21,9 +21,14 @@ public class AccountService {
     private final AccountRepository accountRepository;
 
     public Account createAccount(AccountDto accountDto) {
-        Account accountDb = Account.builder().build();
-        BeanUtils.copyProperties(accountDto, accountDb);
-        return accountRepository.save(accountDb);
+        Account accountDb = Account.builder()
+                .accountNumber(accountDto.getAccountNumber())
+                .build();
+         try {
+            return accountRepository.save(accountDb);
+        } catch (DataIntegrityViolationException ex) {
+            throw new IllegalArgumentException(ACC_NO_EXISTS, ex);
+        }
     }
 
     public Account getAccountInfo(Long accountId) {

@@ -24,7 +24,6 @@ public class Account {
     private String accountNumber;
 
     @JsonIgnore
-//    @Schema(hidden = true)
     @OneToOne(mappedBy = "account", optional = true)
     private Cardholder cardholder;
 
