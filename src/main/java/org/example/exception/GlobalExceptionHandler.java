@@ -58,6 +58,14 @@ public class GlobalExceptionHandler {
                 INTERNAL_SERVER_ERROR.getReasonPhrase());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(value = {GeneralException.class})
+    @ResponseStatus(value = INTERNAL_SERVER_ERROR)
+    public ErrorMessage handleGeneralException(GeneralException ex) {
+        return new ErrorMessage(INTERNAL_SERVER_ERROR.value(),
+                new Date(),
+                Collections.singletonList(ex.getMessage()),
+                REQUEST_FAILED);
+    }
 
     @ExceptionHandler(value = {Exception.class})
     @ResponseStatus(value = INTERNAL_SERVER_ERROR)

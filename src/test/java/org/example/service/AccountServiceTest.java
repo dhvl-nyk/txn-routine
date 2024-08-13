@@ -2,6 +2,7 @@ package org.example.service;
 
 import org.example.dto.AccountDto;
 import org.example.entity.Account;
+import org.example.exception.GeneralException;
 import org.example.exception.ResourceNotFoundException;
 import org.example.repository.AccountRepository;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.Optional;
 
@@ -52,5 +54,24 @@ class AccountServiceTest {
                 .thenReturn(Optional.empty());
         assertThrows(ResourceNotFoundException.class,
                 ()->accountService.getAccountInfo(1L));
+    }
+
+
+    @Test
+    void createAccountGeneralException() {
+        Mockito.when(accountRepository.save(Mockito.any()))
+                        .thenThrow(NullPointerException.class);
+        assertThrows(GeneralException.class,
+                ()->accountService.createAccount(new AccountDto()));
+    }
+
+    @Test
+    void createAccountDataIntegrityViolationException() {
+        AccountDto accountDto = new AccountDto();
+        accountDto.setAccountNumber("ABC");
+        Mockito.when(accountRepository.save(Mockito.any()))
+                .thenThrow(DataIntegrityViolationException.class);
+        assertThrows(DataIntegrityViolationException.class,
+                ()->accountService.createAccount(accountDto));
     }
 }

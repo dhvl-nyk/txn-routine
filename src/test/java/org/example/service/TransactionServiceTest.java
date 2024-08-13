@@ -5,6 +5,7 @@ import org.example.dto.TransactionDto;
 import org.example.entity.Account;
 import org.example.entity.OperationType;
 import org.example.entity.Transaction;
+import org.example.exception.ResourceNotFoundException;
 import org.example.repository.AccountRepository;
 import org.example.repository.OperationTypeRepository;
 import org.example.repository.TransactionRepository;
@@ -18,6 +19,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -62,4 +64,37 @@ class TransactionServiceTest {
         assertEquals(transaction.getTransactionId(),2L);
         assertEquals(transaction.getAmount(),BigDecimal.TEN);
     }
+
+    @Test
+    void resourceNotFoundExceptionException() {
+        when(accountRepository.findById(Mockito.anyLong()))
+                .thenReturn(Optional.empty());
+        when(operationTypeRepository.findById(Mockito.anyLong()))
+                .thenReturn(Optional.empty());
+        amountStrategies.add(new CreditVoucher());
+        amountStrategies.add(new PurchaseWithdraw());
+        assertThrows(ResourceNotFoundException.class, () ->
+                transactionService.createTransaction(
+                        TransactionDto.builder().accountId(3L).operationTypeId(5L).build()));
+    }
+
+    @Test
+    void dataIntegrityViolationExceptionException() {
+        when(accountRepository.findById(Mockito.anyLong()))
+                .thenReturn(Optional.ofNullable(Account.builder().accountId(1L).accountNumber("abc").build()));
+        when(operationTypeRepository.findById(Mockito.anyLong()))
+                .thenReturn(Optional.ofNullable(
+                        OperationType.builder().operationTypeId(2L)
+                                .description(OperationTypeEnum.CREDIT_VOUCHER.getValue())
+                                .build())
+                );
+        amountStrategies.add(new CreditVoucher());
+        amountStrategies.add(new PurchaseWithdraw());
+
+        when(transactionRepository.save(any())).thenThrow(DataIntegrityViolationException.class);
+        assertThrows(DataIntegrityViolationException.class, () ->
+                    transactionService.createTransaction(
+                            TransactionDto.builder().accountId(3L).operationTypeId(5L).build()));
+    }
+
 }

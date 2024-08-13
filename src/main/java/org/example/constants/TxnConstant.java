@@ -13,5 +13,6 @@ public class TxnConstant {
     public static final String AMOUNT_REQUIRED = "Amount is required.";
     public static final String ACC_NO_NOT_FOUND = "Account with ID %s not found";
     public static final String OPERATION_ID_NOT_FOUND = "Operation Type with ID %s not found";
+    public static final String GENERAL_ERROR = "An unexpected error occurred while performing operation.";
 
 }
