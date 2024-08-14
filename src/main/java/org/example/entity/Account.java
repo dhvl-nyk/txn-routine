@@ -20,8 +20,8 @@ public class Account {
     @Column(name = "account_id")
     private Long accountId;
 
-    @Column(name = "account_number", nullable = false, unique = true)
-    private String accountNumber;
+    @Column(name = "document_number", nullable = false, unique = true)
+    private String documentNumber;
 
     @JsonIgnore
     @OneToOne(mappedBy = "account", optional = true)

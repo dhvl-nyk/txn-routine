@@ -23,7 +23,7 @@ public class AccountService {
     public Account createAccount(AccountDto accountDto) {
         try {
             Account accountDb = Account.builder()
-                .accountNumber(accountDto.getAccountNumber())
+                .documentNumber(accountDto.getDocumentNumber())
                 .build();
             return accountRepository.save(accountDb);
         } catch (DataIntegrityViolationException ex) {

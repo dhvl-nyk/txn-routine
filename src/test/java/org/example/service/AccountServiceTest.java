@@ -29,23 +29,23 @@ class AccountServiceTest {
     void createAccount() {
     String accNo= "11234";
     Mockito.when(accountRepository.save(Mockito.any()))
-            .thenReturn(Account.builder().accountId(1L).accountNumber(accNo).build());
+            .thenReturn(Account.builder().accountId(1L).documentNumber(accNo).build());
     AccountDto accountDto = new AccountDto();
-    accountDto.setAccountNumber(accNo);
+    accountDto.setDocumentNumber(accNo);
     Account account = accountService.createAccount(accountDto);
     assertNotNull(account);
     assertEquals(account.getAccountId(), 1L);
-    assertEquals(account.getAccountNumber(), accNo);
+    assertEquals(account.getDocumentNumber(), accNo);
     }
 
     @Test
     void getAccountInfo() {
         String accNo= "11220";
         Mockito.when(accountRepository.findById(Mockito.any()))
-                .thenReturn(Optional.ofNullable(Account.builder().accountId(1L).accountNumber("11220").build()));
+                .thenReturn(Optional.ofNullable(Account.builder().accountId(1L).documentNumber("11220").build()));
         Account account = accountService.getAccountInfo(1L);
         assertNotNull(account);
-        assertEquals(account.getAccountNumber(), accNo);
+        assertEquals(account.getDocumentNumber(), accNo);
     }
 
     @Test
@@ -68,7 +68,7 @@ class AccountServiceTest {
     @Test
     void createAccountDataIntegrityViolationException() {
         AccountDto accountDto = new AccountDto();
-        accountDto.setAccountNumber("ABC");
+        accountDto.setDocumentNumber("ABC");
         Mockito.when(accountRepository.save(Mockito.any()))
                 .thenThrow(DataIntegrityViolationException.class);
         assertThrows(DataIntegrityViolationException.class,

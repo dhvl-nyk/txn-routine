@@ -41,24 +41,24 @@ class AccountControllerTest {
     @Test
     @DisplayName("Testing createAccount")
     void createAccount() throws Exception {
-        Account account = Account.builder().accountId(1L).accountNumber("ABC").build();
+        Account account = Account.builder().accountId(1L).documentNumber("ABC").build();
         when(accountService.createAccount(any()))
                 .thenReturn(account);
         AccountDto accountDto = new AccountDto();
-        accountDto.setAccountNumber("111");
+        accountDto.setDocumentNumber("111");
         mockMvc.perform(post("/api/accounts")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(accountDto)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.accountId").value(1L))
-                .andExpect(jsonPath("$.accountNumber").value("ABC"))
+                .andExpect(jsonPath("$.documentNumber").value("ABC"))
         ;
     }
 
     @Test
     @DisplayName("Testing createAccount endpoint failure in case of bad request")
     void createAccountFailure() throws Exception {
-        Account account = Account.builder().accountId(1L).accountNumber("ABC").build();
+        Account account = Account.builder().accountId(1L).documentNumber("ABC").build();
         when(accountService.createAccount(any()))
                 .thenReturn(account);
         AccountDto accountDto = new AccountDto();
@@ -75,13 +75,13 @@ class AccountControllerTest {
     @Test
     @DisplayName("Testing getAccountInfo")
     void testGetAccountInfo() throws Exception {
-        Account account = Account.builder().accountId(1L).accountNumber("ABC").build();
+        Account account = Account.builder().accountId(1L).documentNumber("ABC").build();
         when(accountService.getAccountInfo(anyLong())).thenReturn(account);
         mockMvc.perform(get("/api/accounts/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.accountId").value(1L))
-                .andExpect(jsonPath("$.accountNumber").value("ABC"))
+                .andExpect(jsonPath("$.documentNumber").value("ABC"))
         ;
     }
 

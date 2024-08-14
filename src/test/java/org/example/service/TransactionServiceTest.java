@@ -45,7 +45,7 @@ class TransactionServiceTest {
     @Test
     void createTransaction() {
         when(accountRepository.findById(Mockito.anyLong()))
-                .thenReturn(Optional.ofNullable(Account.builder().accountId(1L).accountNumber("abc").build()));
+                .thenReturn(Optional.ofNullable(Account.builder().accountId(1L).documentNumber("abc").build()));
         when(operationTypeRepository.findById(Mockito.anyLong()))
                 .thenReturn(Optional.ofNullable(
                         OperationType.builder().operationTypeId(2L)
@@ -81,7 +81,7 @@ class TransactionServiceTest {
     @Test
     void dataIntegrityViolationExceptionException() {
         when(accountRepository.findById(Mockito.anyLong()))
-                .thenReturn(Optional.ofNullable(Account.builder().accountId(1L).accountNumber("abc").build()));
+                .thenReturn(Optional.ofNullable(Account.builder().accountId(1L).documentNumber("abc").build()));
         when(operationTypeRepository.findById(Mockito.anyLong()))
                 .thenReturn(Optional.ofNullable(
                         OperationType.builder().operationTypeId(2L)

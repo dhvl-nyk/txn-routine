@@ -1,5 +1,6 @@
 package org.example.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.validation.constraints.DecimalMin;
@@ -12,9 +13,11 @@ import static org.example.constants.TxnConstant.*;
 @Builder
 public class TransactionDto {
 
+    @JsonProperty("operation_type_id")
     @NotNull(message = OPERATION_ID_REQUIRED)
     private Long operationTypeId;
 
+    @JsonProperty("account_id")
     @NotNull(message = ACC_ID_REQUIRED)
     private Long accountId;
 
