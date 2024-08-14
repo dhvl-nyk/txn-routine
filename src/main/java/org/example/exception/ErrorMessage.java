@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ErrorMessage {
     private int statusCode;
-    private Date timestampssss;
+    private Date timestamp;
     private List<String> message;
     private String description;
 }
